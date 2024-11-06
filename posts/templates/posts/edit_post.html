@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: box-shadow 0.3s;
+        }
+
+        .container:hover {
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .edit-form button {
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #d9534f;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        a.btn {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Post</h1>
+        {% if request.user == post.user %}
+            <form method="post" class="edit-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="{% url 'view_posts' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        {% else %}
+            <p class="error-message">You do not have permission to edit this post.</p>
+            <a href="{% url 'view_posts' %}" class="btn btn-secondary">Back to Posts</a>
+        {% endif %}
+    </div>
+</body>
+</html>
